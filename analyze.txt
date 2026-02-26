@@ -14,7 +14,7 @@ fi
 
 PROJECT_PATH=$1
 SONAR_PROJECT_KEY=$2
-ABS_PROJECT_PATH=$(readlink -f "$PROJECT_PATH")
+ABS_PROJECT_PATH=$(cd "$PROJECT_PATH" && pwd)
 
 if [ ! -d "$ABS_PROJECT_PATH" ]; then
     echo "Error: El directorio del proyecto '$ABS_PROJECT_PATH' no existe."
@@ -24,7 +24,6 @@ fi
 # Determina dinámicamente el nombre de la red de Docker Compose basándose
 # en el nombre del directorio actual, convertido a minúsculas.
 NETWORK_NAME=$(basename "$(pwd)" | tr '[:upper:]' '[:lower:]')_devsecops-net
-echo "--- Usando la red de Docker: $NETWORK_NAME ---"
 
 # Verifica si los servicios de SonarQube están corriendo.
 if ! docker compose ps | grep -q "sonarqube-server.*Up"; then
@@ -41,7 +40,12 @@ echo "\n--- [PASO 1/3] Ejecutando Análisis de Dependencias (SCA)... ---"
 docker run --rm \
   -v "$ABS_PROJECT_PATH:/scan" \
   -v ~/.cache/trivy:/root/.cache/ \
-  devsecops-suite trivy fs --severity HIGH,CRITICAL --scanners vuln /scan
+  devsecops-suite trivy fs \
+  --severity HIGH,CRITICAL \
+  --scanners vuln \
+  --list-all-pkgs \
+    --detection-priority comprehensive \
+  /scan #Usaremos /scan pero con una búsqueda más agresiva
 
 echo "--- ✅ SCA finalizado. Resultados mostrados arriba. ---"
 

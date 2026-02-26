@@ -21,6 +21,8 @@ RUN apt-get update && \
 ENV SONAR_SCANNER_HOME=/opt/sonar-scanner
 ENV PATH="${SONAR_SCANNER_HOME}/bin:${PATH}"
 COPY sonar-scanner-5.0.1.3006-linux ${SONAR_SCANNER_HOME}
+#Le damos "permiso de ejecución" a los programas del SonarScanner.
+RUN chmod -R +x ${SONAR_SCANNER_HOME}/bin/
 
 # --- Configuración de Trivy ---
 COPY --from=trivy_builder /usr/local/bin/trivy /usr/local/bin/trivy
