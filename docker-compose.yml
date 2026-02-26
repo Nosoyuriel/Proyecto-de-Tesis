@@ -1,0 +1,61 @@
+# Versión de la sintaxis de Docker Compose
+version: "3.8"
+
+# Definición de los servicios (contenedores)
+services:
+
+  # --- Servicio de la Base de Datos (PostgreSQL) ---
+  db:
+    image: postgres:15 # Usamos una imagen oficial y específica de PostgreSQL
+    container_name: sonarqube-db
+    networks:
+      - devsecops-net # Conecta este servicio a nuestra red personalizada
+    environment:
+      # Credenciales para la base de datos. SonarQube las usará para conectarse.
+      # ¡IMPORTANTE: En un entorno real, usa contraseñas más seguras y gestionadas como secretos!
+      - POSTGRES_USER=sonarqube
+      - POSTGRES_PASSWORD=sonar_password_change_me
+      - POSTGRES_DB=sonarqube
+    volumes:
+      # Volumen nombrado para persistir los datos de la base de datos
+      # Esto asegura que tus análisis no se pierdan si el contenedor se reinicia o se elimina.
+      - sonarqube_db_data:/var/lib/postgresql/data
+
+  # --- Servicio del Servidor de SonarQube ---
+  sonarqube:
+    image: sonarqube:10.5.1-community # Usamos una imagen oficial y específica de SonarQube Community Edition
+    container_name: sonarqube-server
+    depends_on:
+      - db # Le indicamos a Docker que este servicio depende de la base de datos. No se iniciará hasta que 'db' esté listo.
+    ports:
+      # Mapea el puerto 9000 del contenedor al puerto 9000 de tu máquina (host)
+      # para que puedas acceder a la interfaz web de SonarQube.
+      - "9000:9000"
+    networks:
+      - devsecops-net # Conecta este servicio a la misma red para que pueda comunicarse con 'db'
+    environment:
+      # Configuración de la conexión a la base de datos
+      # El hostname 'db' es el nombre del servicio de la base de datos definido arriba.
+      # Docker se encarga de la resolución de nombres dentro de la red 'devsecops-net'.
+      - SONAR_JDBC_URL=jdbc:postgresql://db:5432/sonarqube
+      - SONAR_JDBC_USERNAME=sonarqube
+      - SONAR_JDBC_PASSWORD=sonar_password_change_me
+    volumes:
+      # Volúmenes nombrados para persistir la configuración, datos, extensiones y logs de SonarQube.
+      # Fundamental para mantener los plugins instalados y los resultados de los análisis.
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+
+# Definición de la red personalizada
+networks:
+  devsecops-net:
+    driver: bridge # Usamos el driver 'bridge' estándar, que es el más común.
+
+# Definición de los volúmenes nombrados
+# Docker gestionará estos volúmenes para asegurar la persistencia de los datos.
+volumes:
+  sonarqube_db_data:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
