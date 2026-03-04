@@ -2,7 +2,7 @@ import json
 import os
 
 # Configuración de rutas
-REPORTS_DIR = "reports"
+REPORTS_DIR = "/reports"
 OUTPUT_FILE = os.path.join(REPORTS_DIR, "MASTER_REPORT.json")
 
 def load_json(filename):
@@ -69,7 +69,7 @@ def process_zap(data):
     return results
 
 def main():
-    print("--- 🧠 Iniciando Consolidación de Inteligencia de Seguridad ---")
+    print("--- Iniciando Consolidación de Inteligencia de Seguridad ---")
     
     # Cargar datos
     trivy_data = load_json("trivy_report.json")

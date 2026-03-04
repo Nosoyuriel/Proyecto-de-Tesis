@@ -95,7 +95,7 @@ curl -s -u "$SONAR_TOKEN:" "http://localhost:9000/api/measures/component?compone
 echo "--- ✅ SAST finalizado. Reporte guardado en: $REPORTS_DIR/sonar_report.json ---"
 
 # --- 4. ANÁLISIS DINÁMICO (DAST con OWASP ZAP) ---
-echo "\n--- [PASO 3/3] Ejecutando Análisis Dinámico (DAST)... ---"
+echo "\n--- [PASO 3/4] Ejecutando Análisis Dinámico (DAST)... ---"
 
 # Asumimos que el proyecto tiene un Dockerfile para ser construido y ejecutado.
 APP_IMAGE_TAG="target-app-dast-$(basename $ABS_PROJECT_PATH)"
@@ -129,11 +129,27 @@ docker run --rm -w /zap/wrk \
   zap-baseline.py \
   -t "http://$APP_CONTAINER_NAME:3000" \
   -J "zap_report.json" \
-  -r "zap_report_$(basename $ABS_PROJECT_PATH).html"
-echo "--- ✅ DAST finalizado. Revisa el informe en la carpeta 'reports'. ---"
+  -r "zap_report_$(basename $ABS_PROJECT_PATH).html" || true
+echo "--- ✅ DAST finalizado. ---"
 
 echo "\n========================================================================"
-echo "  ¡ANÁLISIS COMPLETO FINALIZADO!"
+echo "  ¡ANÁLISIS COMPLETO FINALIZADO, CREANDO REPORTE MAESTRO!"
+echo "========================================================================"
+
+
+# --- 4. CONSOLIDACIÓN DE RESULTADOS ---
+echo -e "\n--- [PASO 4/4] Consolidando Reporte Maestro dentro del Contenedor ---"
+
+# Ejecutamos el script usando la imagen de nuestra suite
+# Montamos la carpeta de reportes y el propio script dentro del contenedor
+docker run --rm \
+  -v "$(pwd)/reports:/reports" \
+  -v "$(pwd)/final_report.py:/scan/final_report.py" \
+  devsecops-suite python3 /scan/final_report.py
+
+echo -e "\n========================================================================"
+echo "  ¡ANÁLISIS Y REPORTE FINALIZADOS!"
+echo "  Resultados unificados en: reports/MASTER_REPORT.json"
 echo "========================================================================"
 
 # El 'trap' se encargará de detener el contenedor de la app aquí.
