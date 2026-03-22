@@ -7,23 +7,22 @@ FROM aquasec/trivy:latest AS trivy_builder
 FROM ghcr.io/zaproxy/zaproxy:stable AS zap_builder
 
 # --- ETAPA 3: IMAGEN FINAL ---
-# Imagen final que contendrá todas nuestras herramientas.
-FROM eclipse-temurin:17-jre-focal
+FROM eclipse-temurin:17-jdk-focal
 
-# --- Instalar dependencias adicionales ---
-# ZAP requiere Python, así que lo instalamos.
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip python-is-python3 && \
-    pip3 install PyYAML python-owasp-zap-v2.4 && \
-    rm -rf /var/lib/apt/lists/*
+# --- Instalar dependencias ---
+RUN apt-get update && apt-get install -y python3 python3-pip dos2unix curl && rm -rf /var/lib/apt/lists/*
 
-# --- Configuración de SonarScanner ---
+# 2. Configuración de SonarScanner
 ENV SONAR_SCANNER_HOME=/opt/sonar-scanner
-ENV PATH="${SONAR_SCANNER_HOME}/bin:${PATH}"
 COPY sonar-scanner-5.0.1.3006-linux ${SONAR_SCANNER_HOME}
-#Le damos "permiso de ejecución" a los programas del SonarScanner.
-RUN chmod -R +x ${SONAR_SCANNER_HOME}/bin/
 
+RUN mkdir -p ${SONAR_SCANNER_HOME}/jre/bin && \
+    ln -s $(which java) ${SONAR_SCANNER_HOME}/jre/bin/java && \
+    dos2unix ${SONAR_SCANNER_HOME}/bin/sonar-scanner && \
+    chmod -R +x ${SONAR_SCANNER_HOME}/bin/
+
+# 4. Variables de entorno globales
+ENV PATH="${SONAR_SCANNER_HOME}/bin:${PATH}"
 # --- Configuración de Trivy ---
 COPY --from=trivy_builder /usr/local/bin/trivy /usr/local/bin/trivy
 
@@ -35,3 +34,4 @@ RUN ln -s /zap/zap-baseline.py /usr/local/bin/zap-baseline.py
 
 # --- Configuración Final del Contenedor ---
 WORKDIR /scan
+
