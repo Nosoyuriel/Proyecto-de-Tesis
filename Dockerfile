@@ -1,6 +1,6 @@
 # --- ETAPA 1: TRIVY BUILDER ---
 # Extrae el binario de Trivy.
-FROM aquasec/trivy:latest AS trivy_builder
+FROM ghcr.io/aquasecurity/trivy:latest AS trivy_builder
 
 # --- ETAPA 2: ZAP BUILDER ---
 # Usamos la imagen oficial de ZAP para tener acceso a sus scripts de automatización.

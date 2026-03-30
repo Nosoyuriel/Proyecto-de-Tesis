@@ -6,14 +6,31 @@
 # Esto es CRUCIAL para un pipeline: si el SCA falla, no continuamos al SAST.
 set -e
 
+# Auto-cargar token y proyecto desde archivos de configuración si no están exportados
+if [ -z "$SONAR_TOKEN" ] && [ -f ".sonar_env" ]; then
+    echo "Cargando configuración desde .sonar_env..."
+    source .sonar_env
+fi
+
+if [ -z "$DEFAULT_PROJECT" ] && [ -f ".sonar_project" ]; then
+    DEFAULT_PROJECT=$(cat .sonar_project)
+fi
+
 # --- 1. VALIDACIÓN DE ENTRADA ---
-if [ "$#" -ne 2 ]; then
-    echo "Uso: $0 <ruta_al_proyecto> <sonar_project_key>"
+if [ "$#" -eq 0 ]; then
+    echo "Uso: $0 <ruta_al_proyecto> [sonar_project_key]"
+    echo "Si no especificas sonar_project_key, se usará el proyecto guardado en .sonar_project"
     exit 1
 fi
 
 PROJECT_PATH=$1
-SONAR_PROJECT_KEY=$2
+SONAR_PROJECT_KEY=${2:-$DEFAULT_PROJECT}
+
+if [ -z "$SONAR_PROJECT_KEY" ]; then
+    echo "Error: No se especificó sonar_project_key y no hay uno guardado en .sonar_project"
+    echo "Ejecuta ./setup.sh primero o especifica el proyecto como segundo argumento."
+    exit 1
+fi
 ABS_PROJECT_PATH=$(cd "$PROJECT_PATH" && pwd)
 
 if [ ! -d "$ABS_PROJECT_PATH" ]; then

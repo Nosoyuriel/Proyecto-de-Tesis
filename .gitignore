@@ -1,0 +1,19 @@
+# Entorno virtual Python
+.venv/
+
+# Cache de Python
+__pycache__/
+*.pyc
+
+# Reportes generados
+reports/
+
+# Claude Code settings
+.claude/
+
+# Archivos de configuración local (contienen tokens)
+.sonar_env
+.sonar_project
+
+#Los pdfs que se utilizan para hacer la redaccion del documento final
+*.pdf
