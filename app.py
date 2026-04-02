@@ -225,22 +225,52 @@ with tab2:
 
         st.bar_chart(tool_data.set_index("Herramienta"))
 
-        # Hallazgos recientes con expander
-        st.markdown("### Hallazgos Recientes")
+        # Filtro avanzado de hallazgos
+        st.markdown("### Filtro de Hallazgos")
 
-        recent_findings = findings[:20]
+        col_f1, col_f2 = st.columns(2)
 
-        for finding in recent_findings:
+        with col_f1:
+            severity_filter = st.multiselect(
+                "Severidad:",
+                options=all_severities,
+                default=all_severities
+            )
+
+        with col_f2:
+            tool_filter = st.multiselect(
+                "Herramienta:",
+                options=list(set(f.get("tool", "") for f in findings)),
+                default=list(set(f.get("tool", "") for f in findings))
+            )
+
+        # Aplicar filtros
+        filtered_findings = [
+            f for f in findings
+            if f.get("severity") in severity_filter
+            and f.get("tool") in tool_filter
+        ]
+
+        st.markdown(f"**Resultados filtrados:** {len(filtered_findings)} de {len(findings)}")
+
+        # Botón de descarga JSON
+        if MASTER_REPORT.exists():
+            with open(MASTER_REPORT, 'r') as f:
+                json_data = f.read()
+            st.download_button(
+                label="📥 Descargar Reporte JSON",
+                data=json_data,
+                file_name="MASTER_REPORT.json",
+                mime="application/json"
+            )
+
+        # Mostrar hallazgos filtrados
+        for finding in filtered_findings[:50]:
             severity = finding.get("severity", "N/A")
             severity_emoji = get_severity_emoji(severity)
 
-            with st.expander(f"{severity_emoji} {finding.get('id', 'N/A')} - {severity}"):
-                col_r1, col_r2 = st.columns(2)
-                with col_r1:
-                    st.write(f"**Tipo:** {finding.get('type', 'N/A')}")
-                    st.write(f"**Componente:** {finding.get('component', 'N/A')}")
-                with col_r2:
-                    st.write(f"**Herramienta:** {finding.get('tool', 'N/A')}")
+            with st.expander(f"{severity_emoji} {finding.get('id', 'N/A')} - {finding.get('tool', 'N/A')}"):
+                st.write(f"**Tipo:** {finding.get('type', 'N/A')}")
                 st.markdown(f"**Mensaje:** {finding.get('message', 'N/A')}")
 
 # ============================================
@@ -272,65 +302,6 @@ with tab3:
             if path.exists():
                 size_kb = path.stat().st_size / 1024
                 st.caption(f"{size_kb:.1f} KB")
-
-    # Filtro avanzado de hallazgos
-    st.markdown("---")
-    st.markdown("### Filtro Avanzado de Hallazgos")
-
-    data = load_master_report()
-
-    if data is None:
-        st.info("No hay datos para filtrar.")
-    else:
-        findings = data.get("findings", [])
-
-        # Detectar todas las severidades dinámicamente
-        all_severities = sorted(set(f.get("severity", "UNKNOWN") for f in findings))
-
-        col_f1, col_f2 = st.columns(2)
-
-        with col_f1:
-            severity_filter = st.multiselect(
-                "Severidad:",
-                options=all_severities,
-                default=all_severities
-            )
-
-        with col_f2:
-            tool_filter = st.multiselect(
-                "Herramienta:",
-                options=list(set(f.get("tool", "") for f in findings)),
-                default=list(set(f.get("tool", "") for f in findings))
-            )
-
-        # Aplicar filtros
-        filtered_findings = [
-            f for f in findings
-            if f.get("severity") in severity_filter
-            and f.get("tool") in tool_filter
-        ]
-
-        st.markdown(f"**Resultados filtrados:** {len(filtered_findings)} de {len(findings)}")
-
-        # Descargar CSV
-        if filtered_findings:
-            df = pd.DataFrame(filtered_findings)
-            csv = df.to_csv(index=False)
-            st.download_button(
-                label="📥 Descargar CSV",
-                data=csv,
-                file_name="findings_filtered.csv",
-                mime="text/csv"
-            )
-
-        # Mostrar hallazgos filtrados
-        for finding in filtered_findings[:50]:
-            severity = finding.get("severity", "N/A")
-            severity_emoji = get_severity_emoji(severity)
-
-            with st.expander(f"{severity_emoji} {finding.get('id', 'N/A')} - {finding.get('tool', 'N/A')}"):
-                st.write(f"**Tipo:** {finding.get('type', 'N/A')}")
-                st.write(f"**Mensaje:** {finding.get('message', 'N/A')}")
 
 # ============================================
 # FOOTER
