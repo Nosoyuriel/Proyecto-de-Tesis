@@ -115,8 +115,8 @@ echo "--- ✅ SAST finalizado. Reporte guardado en: $REPORTS_DIR/sonar_report.js
 echo "\n--- [PASO 3/4] Ejecutando Análisis Dinámico (DAST)... ---"
 
 # Asumimos que el proyecto tiene un Dockerfile para ser construido y ejecutado.
-APP_IMAGE_TAG="target-app-dast-$(basename $ABS_PROJECT_PATH)"
-APP_CONTAINER_NAME="dast-target-$(basename $ABS_PROJECT_PATH)"
+APP_IMAGE_TAG="target-app-dast-$(basename $ABS_PROJECT_PATH | tr '[:upper:]' '[:lower:]')"
+APP_CONTAINER_NAME="dast-target-$(basename $ABS_PROJECT_PATH | tr '[:upper:]' '[:lower:]')"
 REPORTS_DIR="$(pwd)/reports"
 mkdir -p "$REPORTS_DIR"
 
