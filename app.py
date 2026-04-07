@@ -9,6 +9,11 @@ import json
 from pathlib import Path
 import pandas as pd
 
+# Importar módulo de mapeo ATT&CK
+import sys
+sys.path.insert(0, str(Path(__file__).parent / "cti"))
+from mapper import ATTACKMapper
+
 # Configuración de la página
 st.set_page_config(
     page_title="DevSecOps Suite",
@@ -277,31 +282,90 @@ with tab2:
 # PESTAÑA 3: EXTRAS
 # ============================================
 with tab3:
-    st.subheader("Funciones Extras")
+    # --- Sección de Mapeo MITRE ATT&CK ---
+    st.markdown("---")
+    st.markdown("### 🎯 Matriz MITRE ATT&CK")
 
-    # Reportes disponibles
-    st.markdown("### Archivos de Reporte")
+    st.markdown("""
+    Esta sección mapea las vulnerabilidades detectadas a las **técnicas y tácticas**
+    del framework MITRE ATT&CK, ayudando a entender el impacto real de los hallazgos
+    en términos de vectores de ataque conocidos.
+    """)
 
-    reports_files = {
-        "MASTER_REPORT.json": MASTER_REPORT,
-        "trivy_report.json": REPORTS_DIR / "trivy_report.json",
-        "sonar_issues.json": REPORTS_DIR / "sonar_issues.json",
-        "sonar_hotspots.json": REPORTS_DIR / "sonar_hotspots.json",
-        "sonar_metrics.json": REPORTS_DIR / "sonar_metrics.json",
-        "zap_report.json": REPORTS_DIR / "zap_report.json",
-    }
+    # Selector de archivo JSON
+    col_m1, col_m2 = st.columns([2, 1])
 
-    for name, path in reports_files.items():
-        col_e1, col_e2 = st.columns([3, 1])
-        with col_e1:
-            if path.exists():
-                st.write(f"✅ {name}")
-            else:
-                st.write(f"❌ {name}")
-        with col_e2:
-            if path.exists():
-                size_kb = path.stat().st_size / 1024
-                st.caption(f"{size_kb:.1f} KB")
+    with col_m1:
+        attack_file = st.file_uploader(
+            "Carga un JSON con vulnerabilidades (CVE/CWE):",
+            type=['json'],
+            key="attack_file"
+        )
+
+    with col_m2:
+        st.markdown("")
+        st.markdown("")
+        use_master = st.button("📊 Usar MASTER_REPORT", use_container_width=True)
+
+    # Procesar archivo o MASTER_REPORT
+    vuln_data = None
+    if attack_file is not None:
+        try:
+            vuln_data = json.load(attack_file)
+        except Exception as e:
+            st.error(f"Error al leer el archivo: {e}")
+    elif use_master and MASTER_REPORT.exists():
+        with open(MASTER_REPORT, 'r') as f:
+            vuln_data = json.load(f)
+
+    if vuln_data:
+        try:
+            # Inicializar mapeador
+            mapper = ATTACKMapper()
+
+            # Generar reporte ATT&CK
+            attack_report = mapper.generate_report(vuln_data)
+            summary = attack_report["summary"]
+
+            # Métricas de resumen
+            st.markdown("#### Resumen de Mapeo")
+            col_r1, col_r2, col_r3, col_r4 = st.columns(4)
+
+            with col_r1:
+                st.metric("Total Hallazgos", summary["total_findings"])
+            with col_r2:
+                st.metric("Mapeados", summary["mapped_findings"])
+            with col_r3:
+                st.metric("Técnicas Únicas", summary["unique_techniques"])
+            with col_r4:
+                st.metric("Tácticas", summary["unique_tactics"])
+
+            # Distribución por táctica
+            if attack_report["tactics"]:
+                st.markdown("#### Distribución por Táctica ATT&CK")
+                tactic_df = pd.DataFrame(attack_report["tactics"])
+                st.bar_chart(tactic_df.set_index("tactic")["count"])
+
+            # Tabla de técnicas detectadas
+            if attack_report["techniques"]:
+                st.markdown("#### Técnicas ATT&CK Detectadas")
+                techniques_df = pd.DataFrame(attack_report["techniques"])
+                st.dataframe(
+                    techniques_df[["technique_id", "name", "tactic", "count"]],
+                    use_container_width=True
+                )
+
+            # CWEs mapeados
+            if attack_report["cwes"]:
+                st.markdown("#### CWEs con Mapeo ATT&CK")
+                cwes_df = pd.DataFrame(attack_report["cwes"])
+                st.dataframe(
+                    cwes_df[["id", "name", "techniques"]],
+                    use_container_width=True
+                )
+
+        except Exception as e:
+            st.error(f"Error al generar mapeo ATT&CK: {e}")
 
 # ============================================
 # FOOTER

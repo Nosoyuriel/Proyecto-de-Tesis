@@ -35,3 +35,6 @@ RUN ln -s /zap/zap-baseline.py /usr/local/bin/zap-baseline.py
 # --- Configuración Final del Contenedor ---
 WORKDIR /scan
 
+# --- Módulo de Mapeo MITRE ATT&CK ---
+COPY cti/ /scan/cti/
+

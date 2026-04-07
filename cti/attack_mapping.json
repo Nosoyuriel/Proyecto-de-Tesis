@@ -1,0 +1,576 @@
+{
+  "metadata": {
+    "version": "1.2",
+    "last_updated": "2026-04-06",
+    "description": "Curated CWE/CVE to MITRE ATT&CK mapping for DevSecOps Suite - Extended coverage",
+    "technique_count": 100
+  },
+  "cve_to_techniques": {
+    "CVE-2014-0160": {"techniques": ["T1005", "T1041"], "cwe_id": "CWE-200"},
+    "CVE-2017-0144": {"techniques": ["T1190", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2017-5638": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2018-11776": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2019-0708": {"techniques": ["T1190", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2020-0601": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2020-1472": {"techniques": ["T1068", "T1078"], "cwe_id": "CWE-269"},
+    "CVE-2021-26855": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2021-3156": {"techniques": ["T1068"], "cwe_id": "CWE-269"},
+    "CVE-2021-44228": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-502"},
+    "CVE-2021-34527": {"techniques": ["T1068", "T1106"], "cwe_id": "CWE-94"},
+    "CVE-2022-22965": {"techniques": ["T1190", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2022-30190": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2023-22515": {"techniques": ["T1078"], "cwe_id": "CWE-862"},
+    "CVE-2023-23397": {"techniques": ["T1078", "T1005"], "cwe_id": "CWE-287"},
+    "CVE-2023-38831": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2023-49103": {"techniques": ["T1005", "T1041"], "cwe_id": "CWE-200"},
+    "CVE-2024-21413": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2024-21887": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2024-3094": {"techniques": ["T1059", "T1078"], "cwe_id": "CWE-77"},
+    "CVE-2015-9235": {"techniques": ["T1059.001"], "cwe_id": "CWE-79"},
+    "CVE-2016-1000223": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-20"},
+    "CVE-2017-18214": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-119"},
+    "CVE-2018-16487": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2018-3728": {"techniques": ["T1059"], "cwe_id": "CWE-94"},
+    "CVE-2019-10744": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2020-15084": {"techniques": ["T1499"], "cwe_id": "CWE-400"},
+    "CVE-2020-8203": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2021-23337": {"techniques": ["T1059"], "cwe_id": "CWE-77"},
+    "CVE-2021-3749": {"techniques": ["T1059"], "cwe_id": "CWE-1333"},
+    "CVE-2021-3807": {"techniques": ["T1059.001"], "cwe_id": "CWE-79"},
+    "CVE-2021-32803": {"techniques": ["T1059"], "cwe_id": "CWE-94"},
+    "CVE-2021-33033": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-119"},
+    "CVE-2021-44228": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-502"},
+    "CVE-2021-45046": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-502"},
+    "CVE-2021-45105": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-502"},
+    "CVE-2022-0778": {"techniques": ["T1499"], "cwe_id": "CWE-835"},
+    "CVE-2022-22965": {"techniques": ["T1190", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2022-23539": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2022-24785": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2022-25881": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2022-25883": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2022-25887": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2022-31137": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2022-46175": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-287"},
+    "CVE-2023-25136": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-502"},
+    "CVE-2023-32314": {"techniques": ["T1078"], "cwe_id": "CWE-287"},
+    "CVE-2023-37466": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2023-37903": {"techniques": ["T1059.001"], "cwe_id": "CWE-79"},
+    "CVE-2023-46233": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2024-37890": {"techniques": ["T1059.001"], "cwe_id": "CWE-79"},
+    "CVE-2024-4068": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2025-47935": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2025-47944": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2025-48997": {"techniques": ["T1059", "T1068"], "cwe_id": "CWE-94"},
+    "CVE-2025-65945": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2025-7338": {"techniques": ["T1059.001"], "cwe_id": "CWE-79"},
+    "CVE-2026-22709": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-287"},
+    "CVE-2026-2359": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-23745": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-23950": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-24842": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-26960": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-26996": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-27903": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-27904": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-29786": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-31802": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-3304": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-33151": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-33671": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-33891": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-287"},
+    "CVE-2026-33894": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-287"},
+    "CVE-2026-33895": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-287"},
+    "CVE-2026-33896": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-287"},
+    "CVE-2026-33937": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-33938": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-33939": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-33940": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-33941": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-3520": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"},
+    "CVE-2026-4800": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-502"},
+    "CVE-2026-4867": {"techniques": ["T1499"], "cwe_id": "CWE-1333"},
+    "CVE-2026-4926": {"techniques": ["T1190", "T1059"], "cwe_id": "CWE-94"}
+  },
+  "cwe_to_techniques": {
+    "CWE-79": {
+      "name": "Cross-site Scripting",
+      "techniques": ["T1059.001"],
+      "description": "XSS allows adversaries to inject scripts into web pages"
+    },
+    "CWE-80": {
+      "name": "Cross-site Scripting (Stored)",
+      "techniques": ["T1059.001"],
+      "description": "Stored XSS injects malicious scripts into web applications"
+    },
+    "CWE-83": {
+      "name": "XSS (DOM-based)",
+      "techniques": ["T1059.001"],
+      "description": "DOM-based XSS manipulates client-side scripts"
+    },
+    "CWE-89": {
+      "name": "SQL Injection",
+      "techniques": ["T1190", "T1059"],
+      "description": "SQL injection allows execution of arbitrary SQL commands"
+    },
+    "CWE-90": {
+      "name": "LDAP Injection",
+      "techniques": ["T1190"],
+      "description": "LDAP injection manipulates LDAP queries"
+    },
+    "CWE-94": {
+      "name": "Code Injection",
+      "techniques": ["T1059"],
+      "description": "Injection of code that gets executed"
+    },
+    "CWE-95": {
+      "name": "Eval Injection",
+      "techniques": ["T1059"],
+      "description": "Dynamic evaluation of user input as code"
+    },
+    "CWE-96": {
+      "name": "Remote Code Execution",
+      "techniques": ["T1059"],
+      "description": "Arbitrary code execution from remote input"
+    },
+    "CWE-113": {
+      "name": "HTTP Response Splitting",
+      "techniques": ["T1059"],
+      "description": "CRLF injection in HTTP responses"
+    },
+    "CWE-119": {
+      "name": "Buffer Overflow",
+      "techniques": ["T1059", "T1068"],
+      "description": "Memory corruption leading to code execution"
+    },
+    "CWE-22": {
+      "name": "Path Traversal",
+      "techniques": ["T1005"],
+      "description": "Path traversal allows file access outside intended directory"
+    },
+    "CWE-78": {
+      "name": "OS Command Injection",
+      "techniques": ["T1059"],
+      "description": "Injection of OS commands through user input"
+    },
+    "CWE-120": {
+      "name": "Classic Buffer Overflow",
+      "techniques": ["T1059", "T1068"],
+      "description": "Stack-based buffer overflow"
+    },
+    "CWE-122": {
+      "name": "Heap-based Buffer Overflow",
+      "techniques": ["T1059", "T1068"],
+      "description": "Heap memory corruption"
+    },
+    "CWE-190": {
+      "name": "Integer Overflow",
+      "techniques": ["T1068"],
+      "description": "Integer overflow can lead to buffer overflow"
+    },
+    "CWE-200": {
+      "name": "Information Exposure",
+      "techniques": ["T1005", "T1041"],
+      "description": "Unauthorized disclosure of sensitive information"
+    },
+    "CWE-201": {
+      "name": "Information Exposure Through Sent Data",
+      "techniques": ["T1005", "T1041"],
+      "description": "Data sent to unexpected location"
+    },
+    "CWE-269": {
+      "name": "Improper Privilege Management",
+      "techniques": ["T1068", "T1078"],
+      "description": "Improperly managing privileges allowing unauthorized actions"
+    },
+    "CWE-276": {
+      "name": "Incorrect Default Permissions",
+      "techniques": ["T1068"],
+      "description": "Files created with overly permissive access"
+    },
+    "CWE-287": {
+      "name": "Authentication Bypass",
+      "techniques": ["T1078"],
+      "description": "Bypassing authentication mechanisms"
+    },
+    "CWE-295": {
+      "name": "Improper Certificate Validation",
+      "techniques": ["T1041", "T1078"],
+      "description": "Certificate not properly validated allowing spoofing"
+    },
+    "CWE-306": {
+      "name": "Missing Authentication",
+      "techniques": ["T1078"],
+      "description": "Critical function lacks authentication"
+    },
+    "CWE-307": {
+      "name": "Brute Force Attack",
+      "techniques": ["T1110"],
+      "description": "Excessive authentication attempts"
+    },
+    "CWE-312": {
+      "name": "Cleartext Storage",
+      "techniques": ["T1005"],
+      "description": "Sensitive data stored in cleartext"
+    },
+    "CWE-327": {
+      "name": "Use of Broken or Risky Cryptographic Algorithm",
+      "techniques": ["T1041"],
+      "description": "Using weak or broken cryptographic algorithms"
+    },
+    "CWE-319": {
+      "name": "Cleartext Transmission",
+      "techniques": ["T1041"],
+      "description": "Sensitive data sent over network unencrypted"
+    },
+    "CWE-345": {
+      "name": "Insufficient Verification",
+      "techniques": ["T1078"],
+      "description": "Inadequate authentication proof"
+    },
+    "CWE-346": {
+      "name": "Origin Validation Error",
+      "techniques": ["T1078"],
+      "description": "Missing origin verification in CORS"
+    },
+    "CWE-347": {
+      "name": " cryptographic Improper Verification",
+      "techniques": ["T1041"],
+      "description": "Weak or missing cryptographic verification"
+    },
+    "CWE-352": {
+      "name": "Cross-Site Request Forgery",
+      "techniques": ["T1078", "T1059.001"],
+      "description": "CSRF forces authenticated actions"
+    },
+    "CWE-362": {
+      "name": "Race Condition",
+      "techniques": ["T1068", "T1059"],
+      "description": "Time-of-check to time-of-use vulnerability"
+    },
+    "CWE-377": {
+      "name": "Insecure Temporary File",
+      "techniques": ["T1005"],
+      "description": "Temporary file vulnerability"
+    },
+    "CWE-400": {
+      "name": "Resource Exhaustion",
+      "techniques": ["T1499"],
+      "description": "Denial of service through resource consumption"
+    },
+    "CWE-434": {
+      "name": "Unrestricted Upload",
+      "techniques": ["T1059", "T1106"],
+      "description": "Unrestricted file upload allows code execution"
+    },
+    "CWE-476": {
+      "name": "NULL Pointer Dereference",
+      "techniques": ["T1499"],
+      "description": "Application crashes when dereferencing null pointer"
+    },
+    "CWE-452": {
+      "name": "Default Credentials",
+      "techniques": ["T1078", "T1110"],
+      "description": "Use of default usernames/passwords"
+    },
+    "CWE-489": {
+      "name": "Debug Enabled",
+      "techniques": ["T1005", "T1041"],
+      "description": "Debug features left in production"
+    },
+    "CWE-502": {
+      "name": "Deserialization of Untrusted Data",
+      "techniques": ["T1059", "T1106"],
+      "description": "Insecure deserialization leads to RCE"
+    },
+    "CWE-522": {
+      "name": "Insufficient Password",
+      "techniques": ["T1078"],
+      "description": "Weak password requirements"
+    },
+    "CWE-539": {
+      "name": "Information Exposure Through Debug",
+      "techniques": ["T1005", "T1041"],
+      "description": "Debug information disclosed"
+    },
+    "CWE-552": {
+      "name": "Files or Directories Accessible",
+      "techniques": ["T1005"],
+      "description": "Publicly accessible files/directories"
+    },
+    "CWE-601": {
+      "name": "Open Redirect",
+      "techniques": ["T1563", "T1190"],
+      "description": "User redirected to untrusted site"
+    },
+    "CWE-611": {
+      "name": "XXE (XML External Entity)",
+      "techniques": ["T1059", "T1005"],
+      "description": "XML external entity injection"
+    },
+    "CWE-639": {
+      "name": "Authorization Bypass",
+      "techniques": ["T1078"],
+      "description": "Insecure direct object reference"
+    },
+    "CWE-641": {
+      "name": "Insecure File Permissions",
+      "techniques": ["T1068"],
+      "description": "Improper file permission settings"
+    },
+    "CWE-643": {
+      "name": "XPath Injection",
+      "techniques": ["T1190", "T1059"],
+      "description": "XPath injection vulnerability"
+    },
+    "CWE-662": {
+      "name": "Insufficient Authorization",
+      "techniques": ["T1078"],
+      "description": "Inadequate access controls"
+    },
+    "CWE-668": {
+      "name": "Exposure of Resource",
+      "techniques": ["T1005"],
+      "description": "Resource exposed to wrong sphere"
+    },
+    "CWE-669": {
+      "name": "Incorrect Restriction",
+      "techniques": ["T1068"],
+      "description": "Resource access outside intended scope"
+    },
+    "CWE-672": {
+      "name": "Expired/Tampered Component",
+      "techniques": ["T1078", "T1190"],
+      "description": "Use of vulnerable component version"
+    },
+    "CWE-681": {
+      "name": "Integer Overflow/Underflow",
+      "techniques": ["T1068"],
+      "description": "Numeric error leading to overflow"
+    },
+    "CWE-693": {
+      "name": "Protection Mechanism Failure",
+      "techniques": ["T1562"],
+      "description": "Security controls can be bypassed"
+    },
+    "CWE-707": {
+      "name": "Improper Neutralization",
+      "techniques": ["T1059"],
+      "description": "Input not properly sanitized"
+    },
+    "CWE-755": {
+      "name": "Improper Handling",
+      "techniques": ["T1499"],
+      "description": "Error condition not handled properly"
+    },
+    "CWE-770": {
+      "name": "Allocation of Resources",
+      "techniques": ["T1499"],
+      "description": "Unlimited resource allocation (DoS)"
+    },
+    "CWE-776": {
+      "name": "XML Bomb (Billion Laughs)",
+      "techniques": ["T1499"],
+      "description": "Denial of service via XML entities"
+    },
+    "CWE-787": {
+      "name": "Out-of-bounds Write",
+      "techniques": ["T1059", "T1068"],
+      "description": "Writing past buffer boundaries"
+    },
+    "CWE-788": {
+      "name": "Out-of-bounds Read",
+      "techniques": ["T1005"],
+      "description": "Reading past buffer boundaries"
+    },
+    "CWE-789": {
+      "name": "Memory Allocation",
+      "techniques": ["T1499"],
+      "description": "Uncontrolled memory allocation"
+    },
+    "CWE-798": {
+      "name": "Hard-coded Credentials",
+      "techniques": ["T1078", "T1110"],
+      "description": "Credentials embedded in source code"
+    },
+    "CWE-862": {
+      "name": "Missing Authorization",
+      "techniques": ["T1078"],
+      "description": "Authorization check is missing"
+    },
+    "CWE-863": {
+      "name": "Incorrect Authorization",
+      "techniques": ["T1078"],
+      "description": "Authorization check is incorrect"
+    },
+    "CWE-908": {
+      "name": "Use of Uninitialized",
+      "techniques": ["T1068"],
+      "description": "Uninitialized variable usage"
+    },
+    "CWE-915": {
+      "name": "Deserialization with Insecure Data",
+      "techniques": ["T1059", "T1106"],
+      "description": "Insecure deserialization"
+    },
+    "CWE-917": {
+      "name": "Expression Language Injection",
+      "techniques": ["T1059", "T1190"],
+      "description": "Injection of expressions into interpreted languages"
+    },
+    "CWE-918": {
+      "name": "SSRF (Server-Side Request Forgery)",
+      "techniques": ["T1190", "T1510"],
+      "description": "Server makes requests to unintended locations"
+    },
+    "CWE-943": {
+      "name": "SQL Injection (Stacked Queries)",
+      "techniques": ["T1190", "T1059"],
+      "description": "SQL injection with multiple statements"
+    },
+    "CWE-1174": {
+      "name": "SSRF via Macro",
+      "techniques": ["T1190"],
+      "description": "URL injection in file processing"
+    },
+    "CWE-1295": {
+      "name": "Debug Bypass",
+      "techniques": ["T1562"],
+      "description": "Security mechanism bypass via debug"
+    },
+    "CWE-1333": {
+      "name": "Regular Expression DoS",
+      "techniques": ["T1499"],
+      "description": "ReDoS via inefficient regex"
+    },
+    "CWE-1344": {
+      "name": "Path Traversal",
+      "techniques": ["T1005"],
+      "description": "Path traversal allows file access"
+    },
+    "CWE-1410": {
+      "name": "XSS (Flash)",
+      "techniques": ["T1059.001"],
+      "description": "Cross-site scripting in Flash"
+    }
+  },
+  "techniques": {
+    "T1059": {
+      "name": "Command and Scripting Interpreter",
+      "tactic": "Execution",
+      "description": "Adversaries may execute arbitrary commands or scripts"
+    },
+    "T1059.001": {
+      "name": "JavaScript",
+      "tactic": "Execution",
+      "description": "Adversaries may use JavaScript for execution"
+    },
+    "T1068": {
+      "name": "Exploitation for Privilege Escalation",
+      "tactic": "Privilege Escalation",
+      "description": "Exploiting vulnerability to gain higher privileges"
+    },
+    "T1078": {
+      "name": "Valid Accounts",
+      "tactic": "Defense Evasion",
+      "description": "Using valid credentials to access systems"
+    },
+    "T1106": {
+      "name": "Native API",
+      "tactic": "Execution",
+      "description": "Using OS native APIs for execution"
+    },
+    "T1110": {
+      "name": "Brute Force",
+      "tactic": "Credential Access",
+      "description": "Brute force attacks to obtain credentials"
+    },
+    "T1190": {
+      "name": "Exploit Public-Facing Application",
+      "tactic": "Initial Access",
+      "description": "Exploiting internet-facing applications"
+    },
+    "T1005": {
+      "name": "Data from Local System",
+      "tactic": "Collection",
+      "description": "Collecting data from local system"
+    },
+    "T1041": {
+      "name": "Exfiltration Over C2 Channel",
+      "tactic": "Exfiltration",
+      "description": "Data exfiltrated via command and control"
+    },
+    "T1499": {
+      "name": "Endpoint Denial of Service",
+      "tactic": "Impact",
+      "description": "Denying service to endpoints"
+    },
+    "T1510": {
+      "name": "Clipboarding",
+      "tactic": "Collection",
+      "description": "Manipulating clipboard content"
+    },
+    "T1562": {
+      "name": "Impair Defenses",
+      "tactic": "Defense Evasion",
+      "description": "Disabling or evading security controls"
+    },
+    "T1563": {
+      "name": "SSH Hijacking",
+      "tactic": "Lateral Movement",
+      "description": "Hijacking SSH sessions"
+    }
+  },
+  "tactics": {
+    "Initial Access": {
+      "description": "The adversary is trying to get into your environment",
+      "color": "red"
+    },
+    "Execution": {
+      "description": "The adversary is trying to run malicious code",
+      "color": "orange"
+    },
+    "Persistence": {
+      "description": "The adversary is trying to maintain their foothold",
+      "color": "yellow"
+    },
+    "Privilege Escalation": {
+      "description": "The adversary is trying to gain higher privileges",
+      "color": "yellow"
+    },
+    "Defense Evasion": {
+      "description": "The adversary is trying to avoid detection",
+      "color": "green"
+    },
+    "Credential Access": {
+      "description": "The adversary is trying to steal credentials",
+      "color": "purple"
+    },
+    "Discovery": {
+      "description": "The adversary is trying to understand the environment",
+      "color": "cyan"
+    },
+    "Lateral Movement": {
+      "description": "The adversary is trying to move through the environment",
+      "color": "blue"
+    },
+    "Collection": {
+      "description": "The adversary is trying to collect data",
+      "color": "pink"
+    },
+    "Exfiltration": {
+      "description": "The adversary is trying to steal data",
+      "color": "red"
+    },
+    "Impact": {
+      "description": "The adversary is trying to manipulate, interrupt, or destroy systems",
+      "color": "red"
+    }
+  },
+  "severity_mapping": {
+    "CRITICAL": ["T1190", "T1059", "T1068", "T1106"],
+    "HIGH": ["T1078", "T1110", "T1005", "T1041"],
+    "MEDIUM": ["T1562", "T1499", "T1563"],
+    "LOW": ["T1005"],
+    "INFO": []
+  }
+}
