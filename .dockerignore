@@ -1,0 +1,15 @@
+# Excluir archivos innecesarios del build context
+.git
+.gitignore
+*.md
+reports/
+.venv/
+__pycache__/
+.scannerwork/
+sonar-scanner-5.0.1.3006-linux/
+docker-compose.yml
+Dockerfile
+.env
+*.log
+*.pyc
+.pytest_cache/
