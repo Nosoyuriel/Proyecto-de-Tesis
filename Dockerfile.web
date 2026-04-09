@@ -1,0 +1,25 @@
+# DevSecOps Suite - Servicio Web
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copiar dependencias primero (para caché de Docker)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar aplicación y scripts
+COPY app.py .
+COPY final_report.py .
+COPY setup.sh .
+COPY analyze.sh .
+COPY .sonar_env ./
+COPY .sonar_project ./
+
+# Indicar que Docker no está disponible dentro del contenedor web
+ENV DOCKER_AVAILABLE=no
+
+# Exponer puerto Streamlit
+EXPOSE 8501
+
+# Iniciar Streamlit
+CMD ["streamlit", "run", "app.py", "--server.address", "0.0.0.0", "--server.port", "8501"]

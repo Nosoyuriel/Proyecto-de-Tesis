@@ -44,6 +44,23 @@ services:
       - sonarqube_extensions:/opt/sonarqube/extensions
       - sonarqube_logs:/opt/sonarqube/logs
 
+  # --- Servicio Web (Streamlit) ---
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: devsecops-web
+    ports:
+      - "8501:8501"
+    networks:
+      - devsecops-net
+    volumes:
+      - ./reports:/app/reports
+      - ./.sonar_env:/app/.sonar_env
+      - ./.sonar_project:/app/.sonar_project
+    depends_on:
+      - sonarqube
+
 # Definición de la red personalizada
 networks:
   devsecops-net:

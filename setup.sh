@@ -1,21 +1,34 @@
 #!/bin/bash
 set -e
 
-# --- PASO 1: LIMPIEZA DEL ENTORNO ANTERIOR ---
-echo "--- [1/5] Limpiando cualquier ejecución anterior... ---"
-docker compose down --volumes --remove-orphans
+# --- MODO DE EJECUCIÓN ---
+# Si DOCKER_AVAILABLE=no, se salta la configuración Docker (para ejecutar dentro del contenedor web)
+DOCKER_AVAILABLE=${DOCKER_AVAILABLE:-yes}
 
-# --- PASO 2: CONSTRUCCIÓN DE LA IMAGEN DE HERRAMIENTAS ---
-echo "--- [2/5] Construyendo la imagen 'devsecops-suite'... ---"
-docker build -t devsecops-suite .
+# Si estamos dentro del contenedor web, usar el hostname del servicio SonarQube
+if [ "$DOCKER_AVAILABLE" = "no" ]; then
+    SONAR_HOST="sonarqube"
+else
+    SONAR_HOST="localhost"
+fi
 
-# --- PASO 3: INICIO DE LOS SERVICIOS DE FONDO ---
-echo "--- [3/5] Iniciando servicios de SonarQube y PostgreSQL... ---"
-docker compose up -d
+# --- PASO 1: LIMPIEZA DEL ENTORNO ANTERIOR (solo si Docker está disponible) ---
+if [ "$DOCKER_AVAILABLE" = "yes" ]; then
+    echo "--- [1/5] Limpiando cualquier ejecución anterior... ---"
+    docker compose down --volumes --remove-orphans
+
+    # --- PASO 2: CONSTRUCCIÓN DE LA IMAGEN DE HERRAMIENTAS ---
+    echo "--- [2/5] Construyendo la imagen 'devsecops-suite'... ---"
+    docker build -t devsecops-suite .
+
+    # --- PASO 3: INICIO DE LOS SERVICIOS DE FONDO ---
+    echo "--- [3/5] Iniciando servicios de SonarQube y PostgreSQL... ---"
+    docker compose up -d
+fi
 
 # --- PASO 4: ESPERA ACTIVA DEL SERVIDOR ---
 echo "--- [4/5] Esperando a que SonarQube esté operativo... ---"
-while [[ "$(curl -s -u admin:admin http://localhost:9000/api/system/status | jq -r '.status')" != "UP" ]]; do
+while [[ "$(curl -s -u admin:admin http://${SONAR_HOST}:9000/api/system/status | jq -r '.status')" != "UP" ]]; do
     printf '.'
     sleep 5
 done
@@ -32,7 +45,7 @@ echo "Usando nombre de proyecto: $PROJECT_KEY"
 
 # 5a. Cambiar la contraseña de admin por defecto.
 echo "Cambiando la contraseña de 'admin' por defecto..."
-curl -s -u admin:admin -X POST "http://localhost:9000/api/users/change_password?login=admin&previousPassword=admin&password=sonar_admin_password"
+curl -s -u admin:admin -X POST "http://${SONAR_HOST}:9000/api/users/change_password?login=admin&previousPassword=admin&password=sonar_admin_password"
 
 # --- !! CORRECCIÓN CRUCIAL !! ---
 # Añadimos un pequeño retraso para asegurar que el cambio de contraseña se procese.
@@ -42,11 +55,11 @@ sleep 5
 # 5b. Crear el proyecto.
 echo "Creando el proyecto '$PROJECT_KEY'..."
 # Usamos la nueva contraseña para esta y las siguientes peticiones.
-curl -s -u admin:sonar_admin_password -X POST "http://localhost:9000/api/projects/create?name=${PROJECT_NAME}&project=${PROJECT_KEY}"
+curl -s -u admin:sonar_admin_password -X POST "http://${SONAR_HOST}:9000/api/projects/create?name=${PROJECT_NAME}&project=${PROJECT_KEY}"
 
 # 5c. Generar un nuevo token para el proyecto.
 echo "Generando token de análisis..."
-TOKEN=$(curl -s -u admin:sonar_admin_password -X POST "http://localhost:9000/api/user_tokens/generate?name=devsecops-suite-token" | jq -r '.token')
+TOKEN=$(curl -s -u admin:sonar_admin_password -X POST "http://${SONAR_HOST}:9000/api/user_tokens/generate?name=devsecops-suite-token" | jq -r '.token')
 
 # Guardar token y nombre del proyecto en archivos para facilitar el uso posterior
 echo "export SONAR_TOKEN=\"$TOKEN\"" > .sonar_env
